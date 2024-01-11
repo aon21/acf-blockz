@@ -44,7 +44,7 @@ class Content
      *
      * @var \WP_Block_Type|null
      */
-    private $block_type;
+    public $block_type;
 
     /**
      * @var int
@@ -137,6 +137,8 @@ class Content
      * @var array
      */
     private $alignmentClasses;
+
+    public $parsed_block;
 
     /**
      * Blocks constructor.
@@ -422,6 +424,11 @@ class Content
         if ($this->is_dynamic) {
             global $post;
             $global_post = $post;
+            if ($this->block['blockName'] === 'core/image') {
+                $this->block_content = render_block_core_image($this->block['attrs'], $this->block_content, $this);
+            } else {
+                $this->block_content = $this->block_type->render($this->block['attrs'], $this->block_content);
+            }
             $this->block_content = $this->block_type->render($this->block['attrs'], $this->block_content);
             $post = $global_post;
         }
@@ -449,10 +456,6 @@ class Content
      */
     public static function render($block_content = '', array $block, $inner = false, $columns = false)
     {
-        if (str_contains($block['blockName'], 'core')) {
-            return;
-        }
-
         $content = new Content();
 
         $content->block_content = $block_content;
