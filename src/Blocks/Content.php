@@ -429,7 +429,6 @@ class Content
             } else {
                 $this->block_content = $this->block_type->render($this->block['attrs'], $this->block_content);
             }
-            $this->block_content = $this->block_type->render($this->block['attrs'], $this->block_content);
             $post = $global_post;
         }
     }
@@ -479,8 +478,6 @@ class Content
 
 
         if (!$content->isWrapped()) {
-            echo 'NOT WRAPPED';
-
             return $content->block_content;
         }
 
