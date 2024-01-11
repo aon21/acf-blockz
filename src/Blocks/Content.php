@@ -449,6 +449,10 @@ class Content
      */
     public static function render($block_content = '', array $block, $inner = false, $columns = false)
     {
+        if (str_contains($block['blockName'], 'core')) {
+            return;
+        }
+
         $content = new Content();
 
         $content->block_content = $block_content;
